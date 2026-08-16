@@ -1,0 +1,41 @@
+flowchart LR
+    %% Entradas
+    CLK[Señal CLK]
+    RST[Señal RESET]
+    ROM[(Archivo\nBinario)]
+
+    %% Entorno de Pruebas
+    subgraph Pruebas [Módulos de Verificación]
+        direction TB
+        SYS[Test del Sistema]
+        UNI[Unit Tests]
+    end
+
+    %% Procesador MIPS
+    subgraph MIPS [Simulador MIPS Pipeline]
+        direction LR
+        IF[1. Fetch] -->|Instrucción\nPC+4| R1([IF/ID])
+        R1 --> ID[2. Decode]
+        ID -->|RegData 1 y 2\nSignImm, Ctrl| R2([ID/EX])
+        R2 --> EX[3. Execute]
+        EX -->|ALU Result\nWriteData, Ctrl| R3([EX/MEM])
+        R3 --> MEM[4. Memory]
+        MEM -->|MemData\nALU Result, Ctrl| R4([MEM/WB])
+        R4 --> WB[5. WriteBack]
+    end
+
+    %% Conexiones de Datos y Control
+    CLK -.-> MIPS
+    RST -.-> MIPS
+    ROM ===> IF
+    WB == Escribe Data\nDest Register ===> ID
+    EX -. Salto Tomado\nNuevo PC .-> IF
+
+    %% Conexiones de Test
+    SYS =. Monitorea .=> MEM
+    SYS =. Monitorea .=> WB
+    UNI -. Inyecta/Evalúa .-> IF
+    UNI -. Inyecta/Evalúa .-> ID
+    UNI -. Inyecta/Evalúa .-> EX
+    UNI -. Inyecta/Evalúa .-> MEM
+    UNI -. Inyecta/Evalúa .-> WB

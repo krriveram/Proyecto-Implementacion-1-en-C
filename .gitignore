@@ -1,0 +1,20 @@
+# Ejecutables generados por el Makefile
+mips_sim
+mips_sim.exe
+test_etapa_if
+test_etapa_if.exe
+test_etapa_id
+test_etapa_id.exe
+test_etapa_alu
+test_etapa_alu.exe
+test_etapa_mem
+test_etapa_mem.exe
+test_etapa_wb
+test_etapa_wb.exe
+test_integracion
+test_integracion.exe
+
+# Objetos y temporales
+*.o
+*.obj
+*.exe.stackdump

@@ -1,0 +1,22 @@
+flowchart LR
+    PC([PC]) --> IF
+    subgraph IF["IF · instruction_fetch"]
+        IFd["Lee IMEM en PC<br/>PC = PC + 4"]
+    end
+    subgraph ID["ID · instruction_decode"]
+        IDd["Decodifica campos<br/>Genera senales de control<br/>Lee banco de registros"]
+    end
+    subgraph EX["EX · alu_execute"]
+        EXd["ALU add/sub/and/or/xor/nor<br/>Forwarding<br/>Resuelve beq/bne"]
+    end
+    subgraph MEM["MEM · memory_access"]
+        MEMd["lw: lee DMEM<br/>sw: escribe DMEM"]
+    end
+    subgraph WB["WB · write_back"]
+        WBd["Escribe resultado<br/>en el registro destino"]
+    end
+    IF -->|IF/ID| ID
+    ID -->|ID/EX| EX
+    EX -->|EX/MEM| MEM
+    MEM -->|MEM/WB| WB
+    WB -.->|regs actualizados| ID

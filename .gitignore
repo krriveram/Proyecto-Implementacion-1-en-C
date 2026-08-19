@@ -1,0 +1,7 @@
+# Binarios generados por el Makefile
+mips_sim
+test_unit
+
+# Objetos y temporales
+*.o
+*.out

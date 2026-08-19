@@ -1,0 +1,12 @@
+flowchart TD
+    START([Riesgo detectado]) --> TIPO{Tipo de riesgo}
+    TIPO -->|Datos| DATOS["Riesgo de datos"]
+    TIPO -->|Carga-uso| LOAD["Riesgo carga-uso (load-use)"]
+    TIPO -->|Control| CTRL["Riesgo de control"]
+    DATOS --> FWD1["Distancia 1: forwarding desde EX/MEM.alu_out"]
+    DATOS --> FWD2["Distancia 2 y 3: banco ya actualizado (WB antes que EX)"]
+    LOAD --> DET["ID detecta: lw en EX cuyo destino es fuente actual"]
+    DET --> BUB["Burbuja (id_ex.valid=false) + stall 1 ciclo"]
+    CTRL --> BR{"beq / bne"}
+    BR -->|Resuelto en EX| FLUSH["Si se toma: flush de IF/ID y PC = destino"]
+    CTRL --> JMP["j / jr: se resuelven en ID"]

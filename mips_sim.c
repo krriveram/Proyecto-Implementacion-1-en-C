@@ -489,13 +489,17 @@ void test_integral_vectors() {
     run_test_vector(&vec_ctrl);
 }
 
+// El main() se excluye cuando este archivo se incluye desde test_unit.c
+// (que define UNIT_TESTING), para reutilizar las funciones sin un segundo main.
+#ifndef UNIT_TESTING
 int main() {
     printf("Iniciando Verificación Integral del Simulador MIPS...\n");
     printf("=====================================================\n");
-    
+
     test_integral_vectors();
-    
+
     printf("=====================================================\n");
     printf("Todos los vectores de prueba han pasado sin errores.\n");
     return 0;
 }
+#endif
